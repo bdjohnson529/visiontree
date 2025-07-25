@@ -11,11 +11,11 @@ interface CameraViewProps {
 
 function CameraWithModel({ device, isActive, style }: CameraViewProps) {
   const model = useTensorflowModel(require('../assets/models/1.tflite'));
-  const [frameResults, setFrameResults] = useState<string>('Waiting for results...');
+  const [frameResults, setFrameResults] = useState<string>('Ellie is cute...');
 
   const frameProcessor = useFrameProcessor((frame) => {
     'worklet'
-    // Frame processing logic goes here
+    console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
   }, []);
 
   return (
