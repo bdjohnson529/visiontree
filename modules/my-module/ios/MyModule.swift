@@ -1,4 +1,6 @@
 import ExpoModulesCore
+import UIKit
+import CoreGraphics
 
 public class MyModule: Module {
   // Each module class must implement the definition function. The definition consists of components
@@ -20,7 +22,7 @@ public class MyModule: Module {
 
     // Defines a JavaScript synchronous function that runs the native code on the JavaScript thread.
     Function("hello") {
-      return "Hello world! 👋"
+      return "Hello from MyModule.swift! 👋"
     }
 
     // Defines a JavaScript function that always returns a Promise and whose native code
@@ -30,6 +32,50 @@ public class MyModule: Module {
       self.sendEvent("onChange", [
         "value": value
       ])
+    }
+
+    // Native Swift functions
+    Function("getNativeGreeting") { (name: String) in
+      return "Hello from native Swift, \(name)!"
+    }
+
+    Function("getDeviceInfo") {
+      let device = UIDevice.current
+      let screen = UIScreen.main.bounds
+      
+      return [
+        "name": device.name,
+        "model": device.model,
+        "systemName": device.systemName,
+        "systemVersion": device.systemVersion,
+        "screenWidth": screen.size.width,
+        "screenHeight": screen.size.height
+      ]
+    }
+
+    AsyncFunction("processImage") { (imageUri: String) -> [String: Any] in
+      guard let url = URL(string: imageUri),
+            let data = try? Data(contentsOf: url),
+            let image = UIImage(data: data),
+            let cgImage = image.cgImage else {
+        return ["error": "Failed to load image"]
+      }
+      
+      let width = cgImage.width
+      let height = cgImage.height
+      let hasAlpha = cgImage.alphaInfo != .none
+      let bitsPerComponent = cgImage.bitsPerComponent
+      let bitsPerPixel = cgImage.bitsPerPixel
+      
+      let result = [[
+        "width": width,
+        "height": height,
+        "hasAlpha": hasAlpha,
+        "bitsPerComponent": bitsPerComponent,
+        "bitsPerPixel": bitsPerPixel
+      ]]
+      
+      return ["data": result]
     }
 
     // Enables the module to be used as a native view. Definition components that are accepted as part of the

@@ -17,3 +17,25 @@ export type MyModuleViewProps = {
   onLoad: (event: { nativeEvent: OnLoadEventPayload }) => void;
   style?: StyleProp<ViewStyle>;
 };
+
+export type DeviceInfo = {
+  name: string;
+  model: string;
+  systemName: string;
+  systemVersion: string;
+  screenWidth: number;
+  screenHeight: number;
+};
+
+export type ImageAnalysis = {
+  width: number;
+  height: number;
+  hasAlpha: boolean;
+  bitsPerComponent: number;
+  bitsPerPixel: number;
+};
+
+export type ProcessImageResult = {
+  data?: ImageAnalysis[];
+  error?: string;
+};
