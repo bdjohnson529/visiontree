@@ -1,6 +1,8 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Camera as VisionCamera, CameraDevice } from 'react-native-vision-camera';
+import { useEffect, useState } from 'react';
+import { StyleSheet, Text } from 'react-native';
+import { useTensorflowModel } from 'react-native-fast-tflite';
+import { CameraDevice, Camera as VisionCamera } from 'react-native-vision-camera';
+
 
 interface CameraViewProps {
   device: CameraDevice | undefined;
@@ -8,16 +10,28 @@ interface CameraViewProps {
   style?: any;
 }
 
-export default function CameraView({ device, isActive, style }: CameraViewProps) {
-  if (!device) {
-    return null;
-  }
+function CameraWithModel({ device, isActive, style }: CameraViewProps) {
+  const model = useTensorflowModel(require('../assets/models/1.tflite'));
 
   return (
     <VisionCamera
       style={[StyleSheet.absoluteFill, style]}
-      device={device}
+      device={device!}
       isActive={isActive}
     />
   );
+}
+
+
+export default function CameraView({ device, isActive, style }: CameraViewProps) {
+  const [mounted, setMounted] = useState(false);
+
+  // Ensure we only render the hook after mount (avoids some RN/Suspense edge cases)
+  useEffect(() => setMounted(true), []);
+
+  if (!device) return null;
+
+  if (!mounted) return <Text>Preparing…</Text>;
+
+  return <CameraWithModel device={device} isActive={isActive} style={style} />;
 }
