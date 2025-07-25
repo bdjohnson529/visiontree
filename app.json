@@ -39,7 +39,8 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
-      ]
+      ],
+      "./plugins/withTreeAnalysis.js"
     ],
     "experiments": {
       "typedRoutes": true
