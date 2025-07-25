@@ -90,6 +90,33 @@ PODS:
   - FBLazyVector (0.79.5)
   - fmt (11.0.2)
   - glog (0.3.5)
+  - GoogleDataTransport (9.4.1):
+    - GoogleUtilities/Environment (~> 7.7)
+    - nanopb (< 2.30911.0, >= 2.30908.0)
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleMLKit/ImageLabeling (6.0.0):
+    - GoogleMLKit/MLKitCore
+    - MLKitImageLabeling (~> 5.0.0)
+  - GoogleMLKit/MLKitCore (6.0.0):
+    - MLKitCommon (~> 11.0.0)
+  - GoogleToolboxForMac/Defines (4.2.1)
+  - GoogleToolboxForMac/Logger (4.2.1):
+    - GoogleToolboxForMac/Defines (= 4.2.1)
+  - "GoogleToolboxForMac/NSData+zlib (4.2.1)":
+    - GoogleToolboxForMac/Defines (= 4.2.1)
+  - GoogleUtilities/Environment (7.13.3):
+    - GoogleUtilities/Privacy
+    - PromisesObjC (< 3.0, >= 1.2)
+  - GoogleUtilities/Logger (7.13.3):
+    - GoogleUtilities/Environment
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/Privacy (7.13.3)
+  - GoogleUtilities/UserDefaults (7.13.3):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilitiesComponents (1.1.0):
+    - GoogleUtilities/Logger
+  - GTMSessionFetcher/Core (3.5.0)
   - hermes-engine (0.79.5):
     - hermes-engine/Pre-built (= 0.79.5)
   - hermes-engine/Pre-built (0.79.5)
@@ -110,6 +137,42 @@ PODS:
   - libwebp/sharpyuv (1.5.0)
   - libwebp/webp (1.5.0):
     - libwebp/sharpyuv
+  - MLImage (1.0.0-beta5)
+  - MLKitCommon (11.0.0):
+    - GoogleDataTransport (< 10.0, >= 9.4.1)
+    - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
+    - "GoogleToolboxForMac/NSData+zlib (< 5.0, >= 4.2.1)"
+    - GoogleUtilities/UserDefaults (< 8.0, >= 7.13.0)
+    - GoogleUtilitiesComponents (~> 1.0)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
+  - MLKitImageLabeling (5.0.0):
+    - MLKitCommon (~> 11.0)
+    - MLKitImageLabelingCommon (~> 7.0)
+    - MLKitVision (~> 7.0)
+    - MLKitVisionKit (~> 8.0)
+  - MLKitImageLabelingCommon (7.0.0):
+    - MLKitCommon (~> 11.0)
+    - MLKitVision (~> 7.0)
+  - MLKitObjectDetectionCommon (7.0.0):
+    - MLKitCommon (~> 11.0)
+    - MLKitVision (~> 7.0)
+  - MLKitVision (7.0.0):
+    - GoogleToolboxForMac/Logger (< 5.0, >= 4.2.1)
+    - "GoogleToolboxForMac/NSData+zlib (< 5.0, >= 4.2.1)"
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3.2)
+    - MLImage (= 1.0.0-beta5)
+    - MLKitCommon (~> 11.0)
+  - MLKitVisionKit (8.0.0):
+    - MLKitCommon (~> 11.0)
+    - MLKitImageLabelingCommon (~> 7.0)
+    - MLKitObjectDetectionCommon (~> 7.0)
+    - MLKitVision (~> 7.0)
+  - nanopb (2.30910.0):
+    - nanopb/decode (= 2.30910.0)
+    - nanopb/encode (= 2.30910.0)
+  - nanopb/decode (2.30910.0)
+  - nanopb/encode (2.30910.0)
+  - PromisesObjC (2.4.0)
   - RCT-Folly (2024.11.18.00):
     - boost
     - DoubleConversion
@@ -1533,6 +1596,30 @@ PODS:
     - ReactCommon/turbomodule/bridging
     - ReactCommon/turbomodule/core
     - Yoga
+  - react-native-worklets-core (1.6.0):
+    - DoubleConversion
+    - glog
+    - hermes-engine
+    - RCT-Folly (= 2024.11.18.00)
+    - RCTRequired
+    - RCTTypeSafety
+    - React-Core
+    - React-debug
+    - React-Fabric
+    - React-featureflags
+    - React-graphics
+    - React-hermes
+    - React-ImageManager
+    - React-jsi
+    - React-NativeModulesApple
+    - React-RCTFabric
+    - React-renderercss
+    - React-rendererdebug
+    - React-utils
+    - ReactCodegen
+    - ReactCommon/turbomodule/bridging
+    - ReactCommon/turbomodule/core
+    - Yoga
   - React-NativeModulesApple (0.79.5):
     - glog
     - hermes-engine
@@ -2066,12 +2153,21 @@ PODS:
     - libwebp (~> 1.0)
     - SDWebImage/Core (~> 5.17)
   - SocketRocket (0.7.1)
+  - vision-camera-image-labeler (0.1.6):
+    - GoogleMLKit/ImageLabeling
+    - React-Core
   - VisionCamera (4.7.1):
     - VisionCamera/Core (= 4.7.1)
+    - VisionCamera/FrameProcessors (= 4.7.1)
     - VisionCamera/React (= 4.7.1)
   - VisionCamera/Core (4.7.1)
+  - VisionCamera/FrameProcessors (4.7.1):
+    - React
+    - React-callinvoker
+    - react-native-worklets-core
   - VisionCamera/React (4.7.1):
     - React-Core
+    - VisionCamera/FrameProcessors
   - Yoga (0.0.0)
 
 DEPENDENCIES:
@@ -2133,6 +2229,7 @@ DEPENDENCIES:
   - React-microtasksnativemodule (from `../node_modules/react-native/ReactCommon/react/nativemodule/microtasks`)
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - react-native-webview (from `../node_modules/react-native-webview`)
+  - react-native-worklets-core (from `../node_modules/react-native-worklets-core`)
   - React-NativeModulesApple (from `../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios`)
   - React-oscompat (from `../node_modules/react-native/ReactCommon/oscompat`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
@@ -2167,14 +2264,30 @@ DEPENDENCIES:
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
+  - vision-camera-image-labeler (from `../node_modules/vision-camera-image-labeler`)
   - VisionCamera (from `../node_modules/react-native-vision-camera`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
   trunk:
+    - GoogleDataTransport
+    - GoogleMLKit
+    - GoogleToolboxForMac
+    - GoogleUtilities
+    - GoogleUtilitiesComponents
+    - GTMSessionFetcher
     - libavif
     - libdav1d
     - libwebp
+    - MLImage
+    - MLKitCommon
+    - MLKitImageLabeling
+    - MLKitImageLabelingCommon
+    - MLKitObjectDetectionCommon
+    - MLKitVision
+    - MLKitVisionKit
+    - nanopb
+    - PromisesObjC
     - SDWebImage
     - SDWebImageAVIFCoder
     - SDWebImageSVGCoder
@@ -2295,6 +2408,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-safe-area-context"
   react-native-webview:
     :path: "../node_modules/react-native-webview"
+  react-native-worklets-core:
+    :path: "../node_modules/react-native-worklets-core"
   React-NativeModulesApple:
     :path: "../node_modules/react-native/ReactCommon/react/nativemodule/core/platform/ios"
   React-oscompat:
@@ -2363,6 +2478,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-reanimated"
   RNScreens:
     :path: "../node_modules/react-native-screens"
+  vision-camera-image-labeler:
+    :path: "../node_modules/vision-camera-image-labeler"
   VisionCamera:
     :path: "../node_modules/react-native-vision-camera"
   Yoga:
@@ -2391,10 +2508,25 @@ SPEC CHECKSUMS:
   FBLazyVector: d2a9cd223302b6c9aa4aa34c1a775e9db609eb52
   fmt: a40bb5bd0294ea969aaaba240a927bd33d878cdd
   glog: 5683914934d5b6e4240e497e0f4a3b42d1854183
+  GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
+  GoogleMLKit: 97ac7af399057e99182ee8edfa8249e3226a4065
+  GoogleToolboxForMac: d1a2cbf009c453f4d6ded37c105e2f67a32206d8
+  GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
+  GoogleUtilitiesComponents: 679b2c881db3b615a2777504623df6122dd20afe
+  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
   hermes-engine: f03b0e06d3882d71e67e45b073bb827da1a21aae
   libavif: 84bbb62fb232c3018d6f1bab79beea87e35de7b7
   libdav1d: 23581a4d8ec811ff171ed5e2e05cd27bad64c39f
   libwebp: 02b23773aedb6ff1fd38cec7a77b81414c6842a8
+  MLImage: 1824212150da33ef225fbd3dc49f184cf611046c
+  MLKitCommon: afec63980417d29ffbb4790529a1b0a2291699e1
+  MLKitImageLabeling: c13caec3baa684553ec823d5dfbca3e3be8ce9a2
+  MLKitImageLabelingCommon: fa802f14c3a321121409f6cbe1df89ba9cf1a00c
+  MLKitObjectDetectionCommon: f3ca8581a0741be6ce609920367316571a280efa
+  MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
+  MLKitVisionKit: 6d2ea9741b262ec0fed2a5a3de521cfa671c6e83
+  nanopb: 438bc412db1928dac798aa6fd75726007be04262
+  PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   RCT-Folly: e78785aa9ba2ed998ea4151e314036f6c49e6d82
   RCTDeprecation: 5f638f65935e273753b1f31a365db6a8d6dc53b5
   RCTRequired: 8b46a520ea9071e2bc47d474aa9ca31b4a935bd8
@@ -2428,6 +2560,7 @@ SPEC CHECKSUMS:
   React-microtasksnativemodule: bda561d2648e1e52bd9e5a87f8889836bdbde2e2
   react-native-safe-area-context: 562163222d999b79a51577eda2ea8ad2c32b4d06
   react-native-webview: 520bcb79c3f2af91e157cdd695732a34ab5f25c8
+  react-native-worklets-core: ac05bb122f54a607a68b7d63687c9c75d24bfe81
   React-NativeModulesApple: 1ecb83880dd11baf2228f8dd89d8419c387e03ad
   React-oscompat: 0592889a9fcf0eacb205532028e4a364e22907dd
   React-perflogger: c584fa50e422a46f37404d083fad12eb289d5de4
@@ -2467,7 +2600,8 @@ SPEC CHECKSUMS:
   SDWebImageSVGCoder: 15a300a97ec1c8ac958f009c02220ac0402e936c
   SDWebImageWebPCoder: e38c0a70396191361d60c092933e22c20d5b1380
   SocketRocket: d4aabe649be1e368d1318fdf28a022d714d65748
-  VisionCamera: 9a8f98ae344fe5d148f84bb45829f9e4caab9d2f
+  vision-camera-image-labeler: 4c30afaf744fc2ed44b4dab80b270b3ae0e96bbd
+  VisionCamera: 7e17e56cca70c88d6fdcae0257f7c0bcc54c8b2f
   Yoga: adb397651e1c00672c12e9495babca70777e411e
 
 PODFILE CHECKSUM: ae0fcca41a3352ee09630caf6df4f95d1bdc3163
