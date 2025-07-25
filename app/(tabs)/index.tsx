@@ -21,14 +21,11 @@ export default function HomeScreen() {
         <HelloWave />
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Looking good.</ThemedText>
-        <ThemedText type="subtitle">Let me know if you want to learn about Neural Networks.</ThemedText>
+        <ThemedText type="subtitle">The development pipeline is working.</ThemedText>
+        <ThemedText type="subtitle">Let's keep testing it.</ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">This app is going to take photos of trees.</ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">And allow us to map regents park.</ThemedText>
+        <ThemedText type="subtitle">Excellente.</ThemedText>
       </ThemedView>
     </ParallaxScrollView>
   );

@@ -9,14 +9,20 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need access to your camera to record video",
+        "NSMicrophoneUsageDescription": "We need access to your microphone to record video"
+      },
+      "bundleIdentifier": "com.anonymous.visiontree"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.visiontree"
     },
     "web": {
       "bundler": "metro",
