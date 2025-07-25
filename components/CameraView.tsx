@@ -1,9 +1,7 @@
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useTensorflowModel } from 'react-native-fast-tflite';
 import { CameraDevice, Camera as VisionCamera, useFrameProcessor } from 'react-native-vision-camera';
-
-import { useResizePlugin } from 'vision-camera-resize-plugin';
 
 interface CameraViewProps {
   device: CameraDevice | undefined;
@@ -13,33 +11,48 @@ interface CameraViewProps {
 
 function CameraWithModel({ device, isActive, style }: CameraViewProps) {
   const model = useTensorflowModel(require('../assets/models/1.tflite'));
+  const [frameResults, setFrameResults] = useState<string>('Waiting for results...');
 
-  const { resize } = useResizePlugin();
   const frameProcessor = useFrameProcessor((frame) => {
-      'worklet'
-
-      const resized = resize(frame, {
-        scale: {
-          width: 192,
-          height: 192
-        },
-        pixelFormat: 'rgb',
-        dataType: 'uint8'
-      });
-
-    // Use resized data with your TensorFlow model here
-    }, [resize]);
+    'worklet'
+    // Frame processing logic goes here
+  }, []);
 
   return (
-    <VisionCamera
-      style={[StyleSheet.absoluteFill, style]}
-      device={device!}
-      isActive={isActive}
-      frameProcessor={frameProcessor}
-    />
+    <View style={[StyleSheet.absoluteFill, style]}>
+      <VisionCamera
+        style={styles.camera}
+        device={device!}
+        isActive={isActive}
+        frameProcessor={frameProcessor}
+      />
+      <View style={styles.resultContainer}>
+        <Text style={styles.resultText}>{frameResults}</Text>
+      </View>
+    </View>
   );
 }
 
+
+const styles = StyleSheet.create({
+  camera: {
+    flex: 1,
+  },
+  resultContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    padding: 16,
+    minHeight: 80,
+  },
+  resultText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
+  },
+});
 
 export default function CameraView({ device, isActive, style }: CameraViewProps) {
   const [mounted, setMounted] = useState(false);
