@@ -1,34 +1,42 @@
 import { Image } from 'expo-image';
 import { StyleSheet } from 'react-native';
+import { useCameraPermission } from 'react-native-vision-camera';
 
 import { HelloWave } from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
+import PermissionScreen from '@/components/PermissionScreen';
 
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hi Ellie!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">The development pipeline is working.</ThemedText>
-        <ThemedText type="subtitle">Let's keep testing it.</ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Excellente.</ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+  const { hasPermission, requestPermission } = useCameraPermission();
+
+  if (!hasPermission) {
+    return <PermissionScreen onPress={requestPermission} />
+  } else {
+    return (
+      <ParallaxScrollView
+        headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
+        headerImage={
+          <Image
+            source={require('@/assets/images/partial-react-logo.png')}
+            style={styles.reactLogo}
+          />
+        }>
+        <ThemedView style={styles.titleContainer}>
+          <ThemedText type="title">Hello Ellie!</ThemedText>
+          <HelloWave />
+        </ThemedView>
+        <ThemedView style={styles.stepContainer}>
+          <ThemedText type="subtitle">The development pipeline is working.</ThemedText>
+          <ThemedText type="subtitle">Let's keep testing it.</ThemedText>
+        </ThemedView>
+        <ThemedView style={styles.stepContainer}>
+          <ThemedText type="subtitle">Excellente.</ThemedText>
+        </ThemedView>
+      </ParallaxScrollView>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
