@@ -11,7 +11,7 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
   public override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?) -> Any? {
     let buffer = frame.buffer
     let visionImage = VisionImage(buffer: buffer)
-    // let orientation = frame.orientation
+    visionImage.orientation = frame.orientation
     
     // Live detection and tracking
     let options = ObjectDetectorOptions()
@@ -46,10 +46,13 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
         ]
       }
       
+      let formatDescription = CMSampleBufferGetFormatDescription(buffer)!
+      let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
       return [
         "objects": detectedObjects,
-        "frameWidth": frame.width,
-        "frameHeight": frame.height
+        "frameWidth": Int(dimensions.width),
+        "frameHeight": Int(dimensions.height),
+        "orientation": frame.orientation.rawValue
       ]
     } catch {
       // Return placeholder on error
