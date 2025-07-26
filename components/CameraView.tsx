@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTensorflowModel } from 'react-native-fast-tflite';
 import { CameraDevice, Camera as VisionCamera, useFrameProcessor } from 'react-native-vision-camera';
+import { useResizePlugin } from 'vision-camera-resize-plugin';
 
 interface CameraViewProps {
   device: CameraDevice | undefined;
@@ -10,13 +11,41 @@ interface CameraViewProps {
 }
 
 function CameraWithModel({ device, isActive, style }: CameraViewProps) {
-  const model = useTensorflowModel(require('../assets/models/1.tflite'));
-  const [frameResults, setFrameResults] = useState<string>('Ellie is cute...');
+  const objectDetection = useTensorflowModel(require('../assets/models/1.tflite'));
+  const model = objectDetection.state === 'loaded' ? objectDetection.model : undefined
 
-  const frameProcessor = useFrameProcessor((frame) => {
+  const { resize } = useResizePlugin()
+
+  console.log(model);
+
+  const [frameResults, setFrameResults] = useState<string>('Nelly is cute...');
+
+  const frameProcessor = useFrameProcessor(
+    (frame) => {
     'worklet'
+
+    if (model == null) return
+
+    // 1. Resize 4k Frame to 192x192x3 using vision-camera-resize-plugin
+    const resized = resize(frame, {
+      scale: {
+        width: 224,
+        height: 224,
+      },
+      pixelFormat: 'rgb',
+      dataType: 'float32',
+    })
+
+    const outputs = model.runSync([resized])
+
+    console.log(resized.length)
+    console.log(outputs[0])
+
     console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
-  }, []);
+    //console.log(`Resized: ${resized.length}`)
+  },
+  []
+);
 
   return (
     <View style={[StyleSheet.absoluteFill, style]}>
