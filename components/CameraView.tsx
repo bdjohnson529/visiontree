@@ -7,8 +7,6 @@ import { useResizePlugin } from 'vision-camera-resize-plugin';
 
 import classNames from '../assets/models/mobilenetv1.json';
 
-// Remove global variables - we'll use SharedValue instead
-
 function getTop10Classes(sortedOutput: [string, number][]) {
   'worklet'
 
@@ -38,19 +36,9 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
   console.log("hello")
   const [frameResults, setFrameResults] = useState<string>('Scanning...');
 
-  // Simple test to see if UI can update at all
-  useEffect(() => {
-    let counter = 0;
-    const interval = setInterval(() => {
-      counter++;
-      setFrameResults(`Test counter: ${counter}`);
-    }, 1000);
 
-    return () => clearInterval(interval);
-  }, []);
-
-  const onFaceDetected = Worklets.createRunOnJS((face: string) => {
-    setFrameResults(JSON.stringify(face))
+  const onFaceDetected = Worklets.createRunOnJS((results: string) => {
+    setFrameResults(results)
   })
 
 
