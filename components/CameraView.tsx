@@ -11,12 +11,12 @@ interface CameraViewProps {
 }
 
 function CameraWithModel({ device, isActive, style }: CameraViewProps) {
-  const objectDetection = useTensorflowModel(require('../assets/models/1.tflite'));
+  const objectDetection = useTensorflowModel(require('../assets/models/mobilenetv1.tflite'));
   const model = objectDetection.state === 'loaded' ? objectDetection.model : undefined
 
   const { resize } = useResizePlugin()
 
-  console.log(model);
+  console.log(model)
 
   const [frameResults, setFrameResults] = useState<string>('Nelly is cute...');
 
@@ -26,7 +26,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
     if (model == null) return
 
-    // 1. Resize 4k Frame to 192x192x3 using vision-camera-resize-plugin
+    // 1. Resize Frame to 224x224x3 using vision-camera-resize-plugin
     const resized = resize(frame, {
       scale: {
         width: 224,
@@ -37,9 +37,10 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
     })
 
     const outputs = model.runSync([resized])
+    const sortedOutput = Object.entries(outputs[0]).sort((a,b) => b[1] - a[1])
 
     console.log(resized.length)
-    console.log(outputs[0])
+    console.log(sortedOutput)
 
     console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
     //console.log(`Resized: ${resized.length}`)

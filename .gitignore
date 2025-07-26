@@ -40,3 +40,4 @@ app-example
 
 # VSCode
 .vscode
+.logs
