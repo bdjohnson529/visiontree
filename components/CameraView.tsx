@@ -7,15 +7,20 @@ import { useResizePlugin } from 'vision-camera-resize-plugin';
 
 import classNames from '../assets/models/mobilenetv1.json';
 
-function getDetectedClasses(sortedOutput: [string, number][]) {
+function getDetectedClasses(output: Record<string, number>) {
   'worklet'
 
+  // sort classes by probabilities
+  const sortedOutput = Object.entries(output).sort((a,b) => b[1] - a[1])
+  
+  // apply confidence interval of 0.4 and get top 3 results
   const filtered = sortedOutput.filter(([, score]) => score > 0.4).slice(0, 3);
   
   if (filtered.length === 0) {
     return "No classes detected";
   }
   
+  // return stringified results
   const classNamesList = filtered.map(([index, score]) => (classNames as any)[index][1]);
   return classNamesList.join(', ');
 }
@@ -32,15 +37,14 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
   const { resize } = useResizePlugin()
 
-  console.log(model)
+  //console.log(model)
   console.log("hello")
+
   const [frameResults, setFrameResults] = useState<string>('Scanning...');
 
-
-  const onFaceDetected = Worklets.createRunOnJS((results: string) => {
+  const setFrameResultsWorklet = Worklets.createRunOnJS((results: string) => {
     setFrameResults(results)
   })
-
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
@@ -49,7 +53,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
     if (model == null) return
 
     try {
-      // 1. Resize Frame to 224x224x3 using vision-camera-resize-plugin
+      // resize frame to fit model
       const resized = resize(frame, {
         scale: {
           width: 224,
@@ -59,30 +63,27 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
         dataType: 'float32',
       })
 
+      // run model
       const outputs = model.runSync([resized])
       if (!outputs || !outputs[0]) {
         console.log('No outputs from model')
         return
       }
 
-      const sortedOutput = Object.entries(outputs[0]).sort((a,b) => b[1] - a[1])
-      const top10Classes = getDetectedClasses(sortedOutput)
+      // get results
+      const detectedClasses = getDetectedClasses(outputs[0])
 
-      // Remove global results storage for now
-
-      if (top10Classes !== "No classes detected") {
-        console.log("goodbye")
-        console.log(top10Classes)
-        onFaceDetected(top10Classes)
+      // update UI
+      if (detectedClasses !== "No classes detected") {
+        console.log(detectedClasses)
+        setFrameResultsWorklet(detectedClasses)
       }
     } catch (error) {
       console.log('Frame processing error:', error)
     }
 
-    //console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
-    //console.log(`Resized: ${resized.length}`)
   },
-  [onFaceDetected]
+  [setFrameResultsWorklet]
 );
 
   return (
@@ -124,7 +125,7 @@ const styles = StyleSheet.create({
 export default function CameraView({ device, isActive, style }: CameraViewProps) {
   const [mounted, setMounted] = useState(false);
 
-  // Ensure we only render the hook after mount (avoids some RN/Suspense edge cases)
+  // ensure we only render the hook after mount
   useEffect(() => setMounted(true), []);
 
   if (!device) return null;
