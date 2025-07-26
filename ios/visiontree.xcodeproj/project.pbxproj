@@ -14,6 +14,8 @@
 		902D0764661E97B3FA218503 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9F1BF9F120EDEE7265AB3 /* ExpoModulesProvider.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		5DF27B4270CE4148BC7390E5 /* ObjectDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = D942A6DAD208411981B9E165 /* ObjectDetection.m */; };
+		F5A3198B44774C949D7D4A15 /* ObjectDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C426BF7AFEE84AAD81771B5F /* ObjectDetection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = visiontree/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* visiontree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "visiontree-Bridging-Header.h"; path = "visiontree/visiontree-Bridging-Header.h"; sourceTree = "<group>"; };
 		F7286ED7EB9F54327C020CB6 /* Pods-visiontree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-visiontree.release.xcconfig"; path = "Target Support Files/Pods-visiontree/Pods-visiontree.release.xcconfig"; sourceTree = "<group>"; };
+		D942A6DAD208411981B9E165 /* ObjectDetection.m */ = {isa = PBXFileReference; name = "ObjectDetection.m"; path = "ObjectDetection.m"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; explicitFileType = undefined; includeInIndex = 0; };
+		C426BF7AFEE84AAD81771B5F /* ObjectDetection.swift */ = {isa = PBXFileReference; name = "ObjectDetection.swift"; path = "ObjectDetection.swift"; sourceTree = "<group>"; fileEncoding = 4; lastKnownFileType = sourcecode.swift; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +112,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				1FAA1B83742E79221634A7CC /* Pods */,
 				26C1E2F56E9FF17E3956E762 /* ExpoModulesProviders */,
+				5AD35E88D63248D192433F99 /* ObjectDetection */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -129,6 +134,16 @@
 			);
 			name = Supporting;
 			path = visiontree/Supporting;
+			sourceTree = "<group>";
+		};
+		5AD35E88D63248D192433F99 /* ObjectDetection */ = {
+			isa = PBXGroup;
+			children = (
+				D942A6DAD208411981B9E165 /* ObjectDetection.m */,
+				C426BF7AFEE84AAD81771B5F /* ObjectDetection.swift */,
+			);
+			name = ObjectDetection;
+			path = ObjectDetection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -341,6 +356,8 @@
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
 				902D0764661E97B3FA218503 /* ExpoModulesProvider.swift in Sources */,
+				5DF27B4270CE4148BC7390E5 /* ObjectDetection.m in Sources */,
+				F5A3198B44774C949D7D4A15 /* ObjectDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
