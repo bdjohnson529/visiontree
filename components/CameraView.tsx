@@ -7,7 +7,7 @@ import { useResizePlugin } from 'vision-camera-resize-plugin';
 
 import classNames from '../assets/models/mobilenetv1.json';
 
-function getTop10Classes(sortedOutput: [string, number][]) {
+function getDetectedClasses(sortedOutput: [string, number][]) {
   'worklet'
 
   const filtered = sortedOutput.filter(([, score]) => score > 0.4).slice(0, 3);
@@ -48,8 +48,6 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
     if (model == null) return
 
-    // Frame processing only
-
     try {
       // 1. Resize Frame to 224x224x3 using vision-camera-resize-plugin
       const resized = resize(frame, {
@@ -68,7 +66,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
       }
 
       const sortedOutput = Object.entries(outputs[0]).sort((a,b) => b[1] - a[1])
-      const top10Classes = getTop10Classes(sortedOutput)
+      const top10Classes = getDetectedClasses(sortedOutput)
 
       // Remove global results storage for now
 
