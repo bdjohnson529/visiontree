@@ -1,15 +1,15 @@
 import { ThemedText } from '@/components/ThemedText';
-import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useCameraDevice } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera-v3-image-labeling';
-import { useFocusEffect } from '@react-navigation/native';
 
 export default function CameraViewGoogleLabel() {
   const [data, setData] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const device = useCameraDevice('back');
-  console.log(data);
+  // console.log(data);
 
   useFocusEffect(
     useCallback(() => {

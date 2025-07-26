@@ -1,6 +1,6 @@
+import { ThemedText } from '@/components/ThemedText';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { ThemedText } from '@/components/ThemedText';
 import { useTensorflowModel } from 'react-native-fast-tflite';
 import { CameraDevice, useFrameProcessor, Camera as VisionCamera } from 'react-native-vision-camera';
 import { Worklets } from 'react-native-worklets-core';
@@ -76,7 +76,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
       // update UI
       if (detectedClasses !== "No classes detected") {
-        console.log(detectedClasses)
+        // console.log(detectedClasses)
         setFrameResultsWorklet(detectedClasses)
       }
     } catch (error) {
