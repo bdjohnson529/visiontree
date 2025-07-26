@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
     padding: 16,
-    minHeight: 80,
+    minHeight: 100,
   },
   resultText: {
     color: 'white',
