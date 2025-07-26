@@ -2,7 +2,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { detectObjects } from '@/src/ObjectDetectionPlugin';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Dimensions } from 'react-native';
 import { CameraDevice, useFrameProcessor, Camera as VisionCamera } from 'react-native-vision-camera';
 import { Worklets } from 'react-native-worklets-core';
 
@@ -37,11 +37,16 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
   
   const [frameResults, setFrameResults] = useState<string>('Scanning...');
   const [detections, setDetections] = useState([])
+  const [frameData, setFrameData] = useState({ width: 1, height: 1 })
+  
+  const screenWidth = Dimensions.get('window').width
+  const screenHeight = Dimensions.get('window').height
 
   const setFrameResultsWorklet = Worklets.createRunOnJS((results: string) => {
     const parsed = JSON.parse(results)
     setFrameResults(parsed.objects?.[0]?.label || 'Scanning...')
     setDetections(parsed.objects || [])
+    setFrameData({ width: parsed.frameWidth || 1, height: parsed.frameHeight || 1 })
   })
 
   const frameProcessor = useFrameProcessor(
@@ -65,18 +70,24 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
         isActive={isActive}
         frameProcessor={frameProcessor}
       />
-      {detections.length > 0 && (
-        <View style={{
-          position: 'absolute',
-          left: detections[0].bounds.x,
-          top: detections[0].bounds.y,
-          width: detections[0].bounds.width,
-          height: detections[0].bounds.height,
-          borderWidth: 2,
-          borderColor: 'red',
-          backgroundColor: 'transparent'
-        }} />
-      )}
+      {detections.length > 0 && (() => {
+        const detection = detections[0]
+        const scaleX = screenWidth / frameData.width
+        const scaleY = screenHeight / frameData.height
+        
+        return (
+          <View style={{
+            position: 'absolute',
+            left: detection.bounds.x * scaleX,
+            top: detection.bounds.y * scaleY,
+            width: detection.bounds.width * scaleX,
+            height: detection.bounds.height * scaleY,
+            borderWidth: 2,
+            borderColor: 'red',
+            backgroundColor: 'transparent'
+          }} />
+        )
+      })()}
       <View style={styles.overlay}>
         <ThemedText style={styles.text}>{frameResults}</ThemedText>
       </View>
