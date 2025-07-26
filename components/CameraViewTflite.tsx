@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { ThemedText } from '@/components/ThemedText';
 import { useTensorflowModel } from 'react-native-fast-tflite';
 import { CameraDevice, useFrameProcessor, Camera as VisionCamera } from 'react-native-vision-camera';
 import { Worklets } from 'react-native-worklets-core';
@@ -94,8 +95,8 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
         isActive={isActive}
         frameProcessor={frameProcessor}
       />
-      <View style={styles.resultContainer}>
-        <Text style={styles.resultText}>{frameResults}</Text>
+      <View style={styles.overlay}>
+        <ThemedText style={styles.text}>{frameResults}</ThemedText>
       </View>
     </View>
   );
@@ -106,23 +107,23 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  resultContainer: {
+  overlay: {
     position: 'absolute',
-    bottom: 0,
+    top: 50,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    padding: 16,
-    minHeight: 100,
+    alignItems: 'center',
+    zIndex: 1,
   },
-  resultText: {
-    color: 'white',
-    fontSize: 16,
-    textAlign: 'center',
+  text: {
+    fontSize: 24,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    padding: 10,
+    borderRadius: 5,
   },
 });
 
-export default function CameraView({ device, isActive, style }: CameraViewProps) {
+export default function CameraViewTflite({ device, isActive, style }: CameraViewProps) {
   const [mounted, setMounted] = useState(false);
 
   // ensure we only render the hook after mount

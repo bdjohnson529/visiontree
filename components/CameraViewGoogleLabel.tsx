@@ -1,13 +1,22 @@
 import { ThemedText } from '@/components/ThemedText';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useCameraDevice } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera-v3-image-labeling';
+import { useFocusEffect } from '@react-navigation/native';
 
-export default function HelloWorld() {
+export default function CameraViewGoogleLabel() {
   const [data, setData] = useState(null);
+  const [isFocused, setIsFocused] = useState(false);
   const device = useCameraDevice('back');
   console.log(data);
+
+  useFocusEffect(
+    useCallback(() => {
+      setIsFocused(true);
+      return () => setIsFocused(false);
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
@@ -15,7 +24,7 @@ export default function HelloWorld() {
         <Camera
           style={StyleSheet.absoluteFill}
           device={device}
-          isActive
+          isActive={isFocused}
           options={{
             minConfidence: 0.1
           }}

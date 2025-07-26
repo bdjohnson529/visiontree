@@ -27,10 +27,17 @@ export default function TabLayout() {
         }),
       }}>
       <Tabs.Screen
-        name="index"
+        name="tflite"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'TFLite',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="cpu.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="google"
+        options={{
+          title: 'Google Vision',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="camera.fill" color={color} />,
         }}
       />
       <Tabs.Screen
@@ -38,13 +45,6 @@ export default function TabLayout() {
         options={{
           title: 'Explore',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      />
-      <Tabs.Screen
-        name="hello"
-        options={{
-          title: 'Hello',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="hand.wave.fill" color={color} />,
         }}
       />
     </Tabs>
