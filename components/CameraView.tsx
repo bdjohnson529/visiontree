@@ -12,16 +12,14 @@ import classNames from '../assets/models/mobilenetv1.json';
 function getTop10Classes(sortedOutput: [string, number][]) {
   'worklet'
 
-  const filtered = sortedOutput.filter(([, score]) => score > 0.4).slice(0, 10);
+  const filtered = sortedOutput.filter(([, score]) => score > 0.4).slice(0, 3);
   
   if (filtered.length === 0) {
-    return [{ className: "No classes", score: 0 }];
+    return "No classes detected";
   }
   
-  return filtered.map(([index, score]) => ({
-    className: (classNames as any)[index][1],
-    score: score
-  }));
+  const classNamesList = filtered.map(([index, score]) => (classNames as any)[index][1]);
+  return classNamesList.join(', ');
 }
 
 interface CameraViewProps {
@@ -86,10 +84,10 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
       // Remove global results storage for now
 
-      if (top10Classes[0].className !== "No classes") {
+      if (top10Classes !== "No classes detected") {
         console.log("goodbye")
-        console.log(String(top10Classes))
-        onFaceDetected(String(top10Classes))
+        console.log(top10Classes)
+        onFaceDetected(top10Classes)
       }
     } catch (error) {
       console.log('Frame processing error:', error)
