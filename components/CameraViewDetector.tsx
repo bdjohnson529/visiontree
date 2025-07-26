@@ -4,6 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { CameraDevice, useFrameProcessor, Camera as VisionCamera } from 'react-native-vision-camera';
+import { Worklets } from 'react-native-worklets-core';
 
 interface CameraViewProps {
   device: CameraDevice | undefined;
@@ -34,12 +35,21 @@ const styles = StyleSheet.create({
 
 function CameraDetector({ device, isActive, style }: CameraViewProps) {
   
+  const [frameResults, setFrameResults] = useState<string>('Scanning...');
+
+  const setFrameResultsWorklet = Worklets.createRunOnJS((results: string) => {
+    setFrameResults(results)
+  })
+
   const frameProcessor = useFrameProcessor(
     (frame) => {
     'worklet'
 
-    const objects = detectObjects(frame)
-    console.log(objects)
+    const result = detectObjects(frame)
+    if (result && result.objects && result.objects.length > 0) {
+      console.log('Objects detected:', result.objects[0].label)
+      setFrameResultsWorklet(JSON.stringify(result.objects[0].label))
+    }
   },
   []
 );
@@ -53,7 +63,7 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
         frameProcessor={frameProcessor}
       />
       <View style={styles.overlay}>
-        <ThemedText style={styles.text}>ellie is cute!</ThemedText>
+        <ThemedText style={styles.text}>{frameResults}</ThemedText>
       </View>
     </View>
   );

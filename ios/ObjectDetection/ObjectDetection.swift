@@ -23,6 +23,15 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
     do {
       let objects = try objectDetector.results(in: visionImage)
       
+      guard !objects.isEmpty else {
+        // Return empty objects array if no objects detected
+        return [
+          "objects": [],
+          "frameWidth": frame.width,
+          "frameHeight": frame.height
+        ]
+      }
+      
       let detectedObjects = objects.map { object in
         let bestLabel = object.labels.max { $0.confidence < $1.confidence }
         return [

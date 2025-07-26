@@ -49,43 +49,42 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
   const frameProcessor = useFrameProcessor(
     (frame) => {
-    'worklet'
+      'worklet'
 
-    if (model == null) return
+      if (model == null) return
 
-    try {
-      // resize frame to fit model
-      const resized = resize(frame, {
-        scale: {
-          width: 224,
-          height: 224,
-        },
-        pixelFormat: 'rgb',
-        dataType: 'float32',
-      })
+      try {
+        // resize frame to fit model
+        const resized = resize(frame, {
+          scale: {
+            width: 224,
+            height: 224,
+          },
+          pixelFormat: 'rgb',
+          dataType: 'float32',
+        })
 
-      // run model
-      const outputs = model.runSync([resized])
-      if (!outputs || !outputs[0]) {
-        console.log('No outputs from model')
-        return
+        // run model
+        const outputs = model.runSync([resized])
+        if (!outputs || !outputs[0]) {
+          console.log('No outputs from model')
+          return
+        }
+
+        // get results
+        const detectedClasses = getDetectedClasses(outputs[0])
+
+        // update UI
+        if (detectedClasses !== "No classes detected") {
+          // console.log(detectedClasses)
+          setFrameResultsWorklet(detectedClasses)
+        }
+      } catch (error) {
+        console.log('Frame processing error:', error)
       }
 
-      // get results
-      const detectedClasses = getDetectedClasses(outputs[0])
-
-      // update UI
-      if (detectedClasses !== "No classes detected") {
-        // console.log(detectedClasses)
-        setFrameResultsWorklet(detectedClasses)
-      }
-    } catch (error) {
-      console.log('Frame processing error:', error)
-    }
-
-  },
-  [setFrameResultsWorklet]
-);
+    },[setFrameResultsWorklet]
+  );
 
   return (
     <View style={[StyleSheet.absoluteFill, style]}>
