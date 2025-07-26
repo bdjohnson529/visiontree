@@ -34,7 +34,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
   const { resize } = useResizePlugin()
 
   console.log(model)
-  console.log("helo")
+  console.log("hello")
   const [frameResults, setFrameResults] = useState<string>('Nelly is cute...');
 
   const frameProcessor = useFrameProcessor(
@@ -43,23 +43,32 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
     if (model == null) return
 
-    // 1. Resize Frame to 224x224x3 using vision-camera-resize-plugin
-    const resized = resize(frame, {
-      scale: {
-        width: 224,
-        height: 224,
-      },
-      pixelFormat: 'rgb',
-      dataType: 'float32',
-    })
+    try {
+      // 1. Resize Frame to 224x224x3 using vision-camera-resize-plugin
+      const resized = resize(frame, {
+        scale: {
+          width: 224,
+          height: 224,
+        },
+        pixelFormat: 'rgb',
+        dataType: 'float32',
+      })
 
-    const outputs = model.runSync([resized])
-    const sortedOutput = Object.entries(outputs[0]).sort((a,b) => b[1] - a[1])
-    const top10Classes = getTop10Classes(sortedOutput)
+      const outputs = model.runSync([resized])
+      if (!outputs || !outputs[0]) {
+        console.log('No outputs from model')
+        return
+      }
 
-    if (top10Classes[0].className !== "No classes") {
-      console.log(resized.length)
-      console.log(top10Classes)
+      const sortedOutput = Object.entries(outputs[0]).sort((a,b) => b[1] - a[1])
+      const top10Classes = getTop10Classes(sortedOutput)
+
+      if (top10Classes[0].className !== "No classes") {
+        console.log(resized.length)
+        console.log(top10Classes)
+      }
+    } catch (error) {
+      console.log('Frame processing error:', error)
     }
 
     //console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
