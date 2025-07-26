@@ -9,7 +9,25 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
   public override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?) -> Any? {
     let buffer = frame.buffer
     let orientation = frame.orientation
-    // code goes here
-    return nil
+    
+    // Return placeholder detection results
+    let placeholderResults: [String: Any] = [
+      "objects": [
+        [
+          "label": "placeholder",
+          "confidence": 0.85,
+          "bounds": [
+            "x": 100,
+            "y": 100,
+            "width": 200,
+            "height": 150
+          ]
+        ]
+      ],
+      "frameWidth": 1,
+      "frameHeight": 1
+    ]
+    
+    return placeholderResults
   }
 }
