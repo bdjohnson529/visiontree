@@ -99,6 +99,9 @@ PODS:
     - MLKitImageLabeling (~> 5.0.0)
   - GoogleMLKit/MLKitCore (6.0.0):
     - MLKitCommon (~> 11.0.0)
+  - GoogleMLKit/ObjectDetection (6.0.0):
+    - GoogleMLKit/MLKitCore
+    - MLKitObjectDetection (~> 5.0.0)
   - GoogleToolboxForMac/Defines (4.2.1)
   - GoogleToolboxForMac/Logger (4.2.1):
     - GoogleToolboxForMac/Defines (= 4.2.1)
@@ -153,6 +156,11 @@ PODS:
   - MLKitImageLabelingCommon (7.0.0):
     - MLKitCommon (~> 11.0)
     - MLKitVision (~> 7.0)
+  - MLKitObjectDetection (5.0.0):
+    - MLKitCommon (~> 11.0)
+    - MLKitObjectDetectionCommon (~> 7.0)
+    - MLKitVision (~> 7.0)
+    - MLKitVisionKit (~> 8.0)
   - MLKitObjectDetectionCommon (7.0.0):
     - MLKitCommon (~> 11.0)
     - MLKitVision (~> 7.0)
@@ -2247,6 +2255,7 @@ DEPENDENCIES:
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - GoogleMLKit/ObjectDetection (= 6.0.0)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
@@ -2339,6 +2348,7 @@ SPEC REPOS:
     - MLKitCommon
     - MLKitImageLabeling
     - MLKitImageLabelingCommon
+    - MLKitObjectDetection
     - MLKitObjectDetectionCommon
     - MLKitVision
     - MLKitVisionKit
@@ -2583,6 +2593,7 @@ SPEC CHECKSUMS:
   MLKitCommon: afec63980417d29ffbb4790529a1b0a2291699e1
   MLKitImageLabeling: c13caec3baa684553ec823d5dfbca3e3be8ce9a2
   MLKitImageLabelingCommon: fa802f14c3a321121409f6cbe1df89ba9cf1a00c
+  MLKitObjectDetection: 9b40359730baceef23322c6d41070da7639ff100
   MLKitObjectDetectionCommon: f3ca8581a0741be6ce609920367316571a280efa
   MLKitVision: e858c5f125ecc288e4a31127928301eaba9ae0c1
   MLKitVisionKit: 6d2ea9741b262ec0fed2a5a3de521cfa671c6e83
@@ -2668,6 +2679,6 @@ SPEC CHECKSUMS:
   VisionCameraImageLabeling: c09a1fc11d4d9dc054810e6342c1e33b152baa19
   Yoga: adb397651e1c00672c12e9495babca70777e411e
 
-PODFILE CHECKSUM: ae0fcca41a3352ee09630caf6df4f95d1bdc3163
+PODFILE CHECKSUM: 0c968371d892784834f7c3d231d4ea98d123cb41
 
 COCOAPODS: 1.16.2
