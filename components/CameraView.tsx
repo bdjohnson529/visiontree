@@ -4,6 +4,23 @@ import { useTensorflowModel } from 'react-native-fast-tflite';
 import { CameraDevice, Camera as VisionCamera, useFrameProcessor } from 'react-native-vision-camera';
 import { useResizePlugin } from 'vision-camera-resize-plugin';
 
+import classNames from '../assets/models/mobilenetv1.json';
+
+function getTop10Classes(sortedOutput: [string, number][]) {
+  'worklet'
+
+  const filtered = sortedOutput.filter(([, score]) => score > 0.4).slice(0, 10);
+  
+  if (filtered.length === 0) {
+    return [{ className: "No classes", score: 0 }];
+  }
+  
+  return filtered.map(([index, score]) => ({
+    className: (classNames as any)[index][1],
+    score: score
+  }));
+}
+
 interface CameraViewProps {
   device: CameraDevice | undefined;
   isActive: boolean;
@@ -17,7 +34,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
   const { resize } = useResizePlugin()
 
   console.log(model)
-
+  console.log("helo")
   const [frameResults, setFrameResults] = useState<string>('Nelly is cute...');
 
   const frameProcessor = useFrameProcessor(
@@ -38,11 +55,14 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
 
     const outputs = model.runSync([resized])
     const sortedOutput = Object.entries(outputs[0]).sort((a,b) => b[1] - a[1])
+    const top10Classes = getTop10Classes(sortedOutput)
 
-    console.log(resized.length)
-    console.log(sortedOutput)
+    if (top10Classes[0].className !== "No classes") {
+      console.log(resized.length)
+      console.log(top10Classes)
+    }
 
-    console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
+    //console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
     //console.log(`Resized: ${resized.length}`)
   },
   []
