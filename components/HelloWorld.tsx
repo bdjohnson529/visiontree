@@ -1,8 +1,8 @@
+import { ThemedText } from '@/components/ThemedText';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useCameraDevice } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera-v3-image-labeling';
-import { ThemedText } from '@/components/ThemedText';
 
 export default function HelloWorld() {
   const [data, setData] = useState(null);
@@ -23,7 +23,9 @@ export default function HelloWorld() {
         />
       )}
       <View style={styles.overlay}>
-        <ThemedText style={styles.text}>Hello World</ThemedText>
+        <ThemedText style={styles.text}>
+          {data && data.length > 0 ? data[0].label : 'No object detected'}
+        </ThemedText>
       </View>
     </View>
   );
