@@ -36,9 +36,12 @@ const styles = StyleSheet.create({
 function CameraDetector({ device, isActive, style }: CameraViewProps) {
   
   const [frameResults, setFrameResults] = useState<string>('Scanning...');
+  const [detections, setDetections] = useState([])
 
   const setFrameResultsWorklet = Worklets.createRunOnJS((results: string) => {
-    setFrameResults(results)
+    const parsed = JSON.parse(results)
+    setFrameResults(parsed.objects?.[0]?.label || 'Scanning...')
+    setDetections(parsed.objects || [])
   })
 
   const frameProcessor = useFrameProcessor(
@@ -47,8 +50,8 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
 
     const result = detectObjects(frame)
     if (result && result.objects && result.objects.length > 0) {
-      console.log('Objects detected:', result.objects[0].label)
-      setFrameResultsWorklet(JSON.stringify(result.objects[0].label))
+      console.log('Objects detected:', result.objects[0])
+      setFrameResultsWorklet(JSON.stringify(result))
     }
   },
   []
@@ -62,6 +65,18 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
         isActive={isActive}
         frameProcessor={frameProcessor}
       />
+      {detections.length > 0 && (
+        <View style={{
+          position: 'absolute',
+          left: detections[0].bounds.x,
+          top: detections[0].bounds.y,
+          width: detections[0].bounds.width,
+          height: detections[0].bounds.height,
+          borderWidth: 2,
+          borderColor: 'red',
+          backgroundColor: 'transparent'
+        }} />
+      )}
       <View style={styles.overlay}>
         <ThemedText style={styles.text}>{frameResults}</ThemedText>
       </View>
