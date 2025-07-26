@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useTensorflowModel } from 'react-native-fast-tflite';
-import { CameraDevice, Camera as VisionCamera, useFrameProcessor } from 'react-native-vision-camera';
+import { CameraDevice, useFrameProcessor, Camera as VisionCamera } from 'react-native-vision-camera';
+import { Worklets } from 'react-native-worklets-core';
 import { useResizePlugin } from 'vision-camera-resize-plugin';
 
 import classNames from '../assets/models/mobilenetv1.json';
@@ -50,6 +51,11 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
     return () => clearInterval(interval);
   }, []);
 
+  const onFaceDetected = Worklets.createRunOnJS((face: string) => {
+    setFrameResults(JSON.stringify(face))
+  })
+
+
   const frameProcessor = useFrameProcessor(
     (frame) => {
     'worklet'
@@ -81,8 +87,9 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
       // Remove global results storage for now
 
       if (top10Classes[0].className !== "No classes") {
-        console.log(resized.length)
-        console.log(top10Classes)
+        console.log("goodbye")
+        console.log(String(top10Classes))
+        onFaceDetected(String(top10Classes))
       }
     } catch (error) {
       console.log('Frame processing error:', error)
@@ -91,7 +98,7 @@ function CameraWithModel({ device, isActive, style }: CameraViewProps) {
     //console.log(`Frame: ${frame.width}x${frame.height} (${frame.pixelFormat})`)
     //console.log(`Resized: ${resized.length}`)
   },
-  []
+  [onFaceDetected]
 );
 
   return (

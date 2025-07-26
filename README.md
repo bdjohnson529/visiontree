@@ -2,6 +2,23 @@
 
 This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
 
+## Build
+
+   ```
+   npx expo prebuild --clean
+   cd ios && pod install && cd ..
+   npx expo run:ios
+   ```
+
+## Deploy
+Start the metro bundler
+
+   ```
+   npx expo start
+   ```
+
+Deploy on device using XCode
+
 ## Get started
 
 1. Install dependencies
