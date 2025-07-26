@@ -4,7 +4,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { useCallback, useState } from 'react';
 
 import PermissionScreen from '@/components/PermissionScreen';
-import CameraView from '@/components/CameraView';
+import CameraViewTflite from '@/components/CameraViewTflite';
 
 export default function HomeScreen() {
   const { hasPermission, requestPermission } = useCameraPermission();
@@ -22,7 +22,7 @@ export default function HomeScreen() {
     return <PermissionScreen onPress={requestPermission} />
   } else {
     return (
-      <CameraView
+      <CameraViewTflite
         style={StyleSheet.absoluteFill}
         device={device}
         isActive={isFocused}

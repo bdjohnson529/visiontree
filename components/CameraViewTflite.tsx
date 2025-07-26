@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function CameraView({ device, isActive, style }: CameraViewProps) {
+export default function CameraViewTflite({ device, isActive, style }: CameraViewProps) {
   const [mounted, setMounted] = useState(false);
 
   // ensure we only render the hook after mount

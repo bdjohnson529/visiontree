@@ -5,7 +5,7 @@ import { useCameraDevice } from 'react-native-vision-camera';
 import { Camera } from 'react-native-vision-camera-v3-image-labeling';
 import { useFocusEffect } from '@react-navigation/native';
 
-export default function HelloWorld() {
+export default function CameraViewGoogleLabel() {
   const [data, setData] = useState(null);
   const [isFocused, setIsFocused] = useState(false);
   const device = useCameraDevice('back');

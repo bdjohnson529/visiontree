@@ -1,5 +1,5 @@
-import HelloWorld from '@/components/HelloWorld';
+import CameraViewGoogleLabel from '@/components/CameraViewGoogleLabel';
 
 export default function HelloScreen() {
-  return <HelloWorld />;
+  return <CameraViewGoogleLabel />;
 }
