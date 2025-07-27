@@ -1,6 +1,7 @@
 import { ThemedText } from '@/components/ThemedText';
+import * as FileSystem from 'expo-file-system';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { CameraDevice, Camera as VisionCamera } from 'react-native-vision-camera';
 
 interface CameraViewProps {
@@ -57,13 +58,35 @@ function CameraCapture({ device, isActive, style }: CameraViewProps) {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [status, setStatus] = useState<string>('Ready to capture...');
 
+  const saveVideoToFilesystem = async (uri: string) => {
+    const fileName = uri.split('/').pop();
+    const newPath = `${FileSystem.documentDirectory}${fileName}`;
+
+    // console.log("from path: ", uri)
+    // console.log("to path: ", `${FileSystem.documentDirectory}${fileName}`)
+    // console.log("\nwithin save video to filesystem")
+
+    try {
+      await FileSystem.copyAsync({
+        from: uri,
+        to: newPath,
+      });
+      console.log('Video saved to:', newPath);
+      return newPath;
+    } catch (error) {
+      console.error('Error saving video:', error);
+      throw error;
+    }
+  };
+
   const startRecording = () => {
     if (camera.current && !isRecording) {
       camera.current.startRecording({
         onRecordingFinished: (video) => {
-          console.log(video);
+          console.log(video.path);
           setStatus('Recording finished');
           setIsRecording(false);
+          saveVideoToFilesystem(video.path);
         },
         onRecordingError: (error) => {
           console.error(error);
