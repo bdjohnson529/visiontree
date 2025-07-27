@@ -113,7 +113,11 @@ export default function VideoGallery() {
     return (
       <VideoPreview 
         video={selectedVideo} 
-        onClose={() => setSelectedVideo(null)} 
+        onClose={() => setSelectedVideo(null)}
+        onDelete={() => {
+          // Refresh the video list after deletion
+          loadVideos();
+        }}
       />
     );
   }

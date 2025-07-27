@@ -1,6 +1,7 @@
 import { Video, ResizeMode, AVPlaybackStatus } from 'expo-av';
+import * as FileSystem from 'expo-file-system';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, Dimensions } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Dimensions, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { ThemedText } from '@/components/ThemedText';
 
@@ -14,6 +15,7 @@ interface VideoFile {
 interface VideoPreviewProps {
   video: VideoFile;
   onClose: () => void;
+  onDelete?: () => void;
 }
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
@@ -41,11 +43,23 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 20,
   },
+  headerButtons: {
+    flexDirection: 'row',
+    gap: 12,
+  },
   closeButton: {
     width: 40,
     height: 40,
     borderRadius: 20,
     backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  deleteButton: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'rgba(220, 38, 38, 0.8)',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -72,16 +86,41 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function VideoPreview({ video, onClose }: VideoPreviewProps) {
+export default function VideoPreview({ video, onClose, onDelete }: VideoPreviewProps) {
   const videoRef = useRef<Video>(null);
-  const [status, setStatus] = useState<AVPlaybackStatus | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   const handlePlaybackStatusUpdate = (status: AVPlaybackStatus) => {
-    setStatus(status);
     if (!status.isLoaded && 'error' in status && status.error) {
       setError(status.error);
     }
+  };
+
+  const handleDelete = () => {
+    Alert.alert(
+      'Delete Video',
+      `Are you sure you want to delete "${video.name}"? This action cannot be undone.`,
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await FileSystem.deleteAsync(video.path);
+              onDelete?.();
+              onClose();
+            } catch (deleteError) {
+              console.error('Error deleting video:', deleteError);
+              Alert.alert('Error', 'Failed to delete the video. Please try again.');
+            }
+          },
+        },
+      ]
+    );
   };
 
   if (error) {
@@ -89,9 +128,14 @@ export default function VideoPreview({ video, onClose }: VideoPreviewProps) {
       <View style={styles.container}>
         <View style={styles.header}>
           <ThemedText style={styles.title}>{video.name}</ThemedText>
-          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-            <Ionicons name="close" size={24} color="#fff" />
-          </TouchableOpacity>
+          <View style={styles.headerButtons}>
+            <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+              <Ionicons name="trash" size={20} color="#fff" />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+              <Ionicons name="close" size={24} color="#fff" />
+            </TouchableOpacity>
+          </View>
         </View>
         <View style={styles.errorContainer}>
           <Ionicons name="warning" size={48} color="#fff" />
@@ -107,9 +151,14 @@ export default function VideoPreview({ video, onClose }: VideoPreviewProps) {
     <View style={styles.container}>
       <View style={styles.header}>
         <ThemedText style={styles.title}>{video.name}</ThemedText>
-        <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-          <Ionicons name="close" size={24} color="#fff" />
-        </TouchableOpacity>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity style={styles.deleteButton} onPress={handleDelete}>
+            <Ionicons name="trash" size={20} color="#fff" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+            <Ionicons name="close" size={24} color="#fff" />
+          </TouchableOpacity>
+        </View>
       </View>
       
       <View style={styles.videoContainer}>
