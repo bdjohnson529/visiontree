@@ -58,7 +58,9 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
       console.log('Objects detected:', result.objects[0])
       console.log('Orientation:', result.orientation)
 
-      console.log("height: ", screenHeight)
+      console.log("orientation: ", frame.orientation)
+      console.log("screen dimensions. height: ", screenHeight, " width: ", screenWidth)
+      console.log("frame dimensions. height: ", frame.height, " width: ", frame.width)
       console.log("width: ", screenWidth)
       console.log("bounds ", result.objects)
 
@@ -84,10 +86,10 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
         return (
           <View style={{
             position: 'absolute',
-            left: detection.bounds.x * scaleX,
-            top: detection.bounds.y * scaleY,
-            width: detection.bounds.width * scaleX,
-            height: detection.bounds.height * scaleY,
+            top: (detection.bounds.minX) * 667 / 1920,
+            right: detection.bounds.minY * 375/1080,
+            height: detection.bounds.width * 667 / 1920,
+            width: detection.bounds.height * 375 / 1080,
             borderWidth: 2,
             borderColor: 'red',
             backgroundColor: 'transparent'

@@ -12,7 +12,7 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
     // Convert frame buffer to VisionImage
     let buffer = frame.buffer
     let visionImage = VisionImage(buffer: buffer)
-    visionImage.orientation = frame.orientation
+    //visionImage.orientation = frame.orientation
     
     // Live detection and tracking
     let options = ObjectDetectorOptions()
