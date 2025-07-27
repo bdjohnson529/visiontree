@@ -1,7 +1,7 @@
 import { ThemedText } from '@/components/ThemedText';
 import * as FileSystem from 'expo-file-system';
 import React, { useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, TextInput } from 'react-native';
 import { CameraDevice, Camera as VisionCamera } from 'react-native-vision-camera';
 
 interface CameraViewProps {
@@ -14,19 +14,18 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  overlay: {
+  labelInput: {
     position: 'absolute',
-    top: 50,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
+    top: 60,
+    left: 20,
+    right: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 8,
+    fontSize: 16,
+    color: '#000',
     zIndex: 1,
-  },
-  text: {
-    fontSize: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 10,
-    borderRadius: 5,
   },
   controls: {
     position: 'absolute',
@@ -56,15 +55,35 @@ const styles = StyleSheet.create({
 function CameraCapture({ device, isActive, style }: CameraViewProps) {
   const camera = useRef<VisionCamera>(null)
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('Ready to capture...');
+  const [label, setLabel] = useState<string>('');
+
+  const saveLabelsData = async (fileName: string, label: string) => {
+    const labelsFilePath = `${FileSystem.documentDirectory}labels.json`;
+    
+    try {
+      let labelsData: { [key: string]: string } = {};
+      
+      // Read existing labels file if it exists
+      const fileInfo = await FileSystem.getInfoAsync(labelsFilePath);
+      if (fileInfo.exists) {
+        const existingData = await FileSystem.readAsStringAsync(labelsFilePath);
+        labelsData = JSON.parse(existingData);
+      }
+      
+      // Add new label
+      labelsData[fileName] = label;
+      
+      // Save updated labels data
+      await FileSystem.writeAsStringAsync(labelsFilePath, JSON.stringify(labelsData, null, 2));
+      console.log('Labels data saved for:', fileName);
+    } catch (error) {
+      console.error('Error saving labels data:', error);
+    }
+  };
 
   const saveVideoToFilesystem = async (uri: string) => {
     const fileName = uri.split('/').pop();
     const newPath = `${FileSystem.documentDirectory}${fileName}`;
-
-    // console.log("from path: ", uri)
-    // console.log("to path: ", `${FileSystem.documentDirectory}${fileName}`)
-    // console.log("\nwithin save video to filesystem")
 
     try {
       await FileSystem.copyAsync({
@@ -72,6 +91,12 @@ function CameraCapture({ device, isActive, style }: CameraViewProps) {
         to: newPath,
       });
       console.log('Video saved to:', newPath);
+      
+      // Save label data if label is provided
+      if (label.trim() && fileName) {
+        await saveLabelsData(fileName, label.trim());
+      }
+      
       return newPath;
     } catch (error) {
       console.error('Error saving video:', error);
@@ -84,18 +109,16 @@ function CameraCapture({ device, isActive, style }: CameraViewProps) {
       camera.current.startRecording({
         onRecordingFinished: (video) => {
           console.log(video.path);
-          setStatus('Recording finished');
           setIsRecording(false);
           saveVideoToFilesystem(video.path);
+          setLabel(''); // Clear label after recording
         },
         onRecordingError: (error) => {
           console.error(error);
-          setStatus('Recording error');
           setIsRecording(false);
         }
       });
       setIsRecording(true);
-      setStatus('Recording...');
     }
   };
 
@@ -114,9 +137,14 @@ function CameraCapture({ device, isActive, style }: CameraViewProps) {
         isActive={isActive}
         video={true}
       />
-      <View style={styles.overlay}>
-        <ThemedText style={styles.text}>{status}</ThemedText>
-      </View>
+      <TextInput
+        style={styles.labelInput}
+        placeholder="Enter label for this recording..."
+        placeholderTextColor="#666"
+        value={label}
+        onChangeText={setLabel}
+        editable={!isRecording}
+      />
       <View style={styles.controls}>
         <TouchableOpacity 
           style={[styles.button, { opacity: isRecording ? 0.5 : 1 }]} 
