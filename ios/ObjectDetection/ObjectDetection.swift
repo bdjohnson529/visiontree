@@ -34,6 +34,7 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
         return emptyResult.dictionary
       }
       
+      // main results
       let detectedObjects = objects.map { object in
         let bestLabel = object.labels.max { $0.confidence < $1.confidence }
         let bounds = DetectionBounds(
@@ -59,21 +60,14 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
       )
       return result.dictionary
     } catch {
-      // Return placeholder on error
-      let placeholderBounds = DetectionBounds(x: 100, y: 100, width: 200, height: 150)
-      let placeholderObject = DetectedObject(
-        label: "placeholder",
-        confidence: 0.85,
-        bounds: placeholderBounds
+      // Return empty objects array on error
+      let emptyResult = DetectionResult(
+        objects: [],
+        frameWidth: frame.width,
+        frameHeight: frame.height,
+        orientation: frame.orientation.rawValue
       )
-      let placeholderResult = DetectionResult(
-        objects: [placeholderObject],
-        frameWidth: 1,
-        frameHeight: 1,
-        orientation: nil
-      )
-      
-      return placeholderResult.dictionary
+      return emptyResult.dictionary
     }
   }
 }
