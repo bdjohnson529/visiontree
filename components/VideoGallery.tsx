@@ -1,4 +1,5 @@
 import { ThemedText } from '@/components/ThemedText';
+import VideoPreview from '@/components/VideoPreview';
 import * as FileSystem from 'expo-file-system';
 import { useFocusEffect } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
@@ -52,6 +53,7 @@ const styles = StyleSheet.create({
 export default function VideoGallery() {
   const [videos, setVideos] = useState<VideoFile[]>([]);
   const [loading, setLoading] = useState(true);
+  const [selectedVideo, setSelectedVideo] = useState<VideoFile | null>(null);
 
   const loadVideos = async () => {
     try {
@@ -99,13 +101,22 @@ export default function VideoGallery() {
   };
 
   const renderVideoItem = ({ item }: { item: VideoFile }) => (
-    <TouchableOpacity style={styles.videoItem} onPress={() => console.log('Play video:', item.path)}>
+    <TouchableOpacity style={styles.videoItem} onPress={() => setSelectedVideo(item)}>
       <ThemedText style={styles.videoName}>{item.name}</ThemedText>
       <ThemedText style={styles.videoDetails}>
         {formatFileSize(item.size)} • {formatDate(item.modificationTime)}
       </ThemedText>
     </TouchableOpacity>
   );
+
+  if (selectedVideo) {
+    return (
+      <VideoPreview 
+        video={selectedVideo} 
+        onClose={() => setSelectedVideo(null)} 
+      />
+    );
+  }
 
   if (loading) {
     return (
