@@ -9,6 +9,7 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
   }
   
   public override func callback(_ frame: Frame, withArguments arguments: [AnyHashable: Any]?) -> Any? {
+    // Convert frame buffer to VisionImage
     let buffer = frame.buffer
     let visionImage = VisionImage(buffer: buffer)
     visionImage.orientation = frame.orientation
@@ -16,15 +17,13 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
     // Live detection and tracking
     let options = ObjectDetectorOptions()
     options.shouldEnableClassification = true
-    
     let objectDetector = ObjectDetector.objectDetector(options: options)
-    
     
     do {
       let objects = try objectDetector.results(in: visionImage)
-      
+     
+      // Return empty objects array if no objects detected
       guard !objects.isEmpty else {
-        // Return empty objects array if no objects detected
         let emptyResult = DetectionResult(
           objects: [],
           frameWidth: frame.width,
@@ -34,7 +33,7 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
         return emptyResult.dictionary
       }
       
-      // main results
+      // Main results
       let detectedObjects = objects.map { object in
         let bestLabel = object.labels.max { $0.confidence < $1.confidence }
         let bounds = DetectionBounds(
