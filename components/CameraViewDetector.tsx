@@ -60,8 +60,7 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
 
       console.log("height: ", screenHeight)
       console.log("width: ", screenWidth)
-      console.log("result height ", result.objects)
-      console.log("result width ", result.objects)
+      console.log("bounds ", result.objects)
 
       setFrameResultsWorklet(JSON.stringify(result))
     }

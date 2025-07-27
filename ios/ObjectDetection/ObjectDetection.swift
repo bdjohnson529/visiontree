@@ -37,10 +37,16 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
       let detectedObjects = objects.map { object in
         let bestLabel = object.labels.max { $0.confidence < $1.confidence }
         let bounds = DetectionBounds(
-          x: object.frame.minX,
-          y: object.frame.minY,
+          minX: object.frame.minX,
+          minY: object.frame.minY,
+          midX: object.frame.midX,
+          midY: object.frame.midY,
+          maxX: object.frame.maxX,
+          maxY: object.frame.maxY,
           width: object.frame.width,
-          height: object.frame.height
+          height: object.frame.height,
+          originX: object.frame.origin.x,
+          originY: object.frame.origin.y
         )
         return DetectedObject(
           label: bestLabel?.text ?? "unknown",

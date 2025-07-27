@@ -2,17 +2,42 @@ import Foundation
 
 // MARK: - Standardized Output Types
 struct DetectionBounds {
-  let x: Double
-  let y: Double
+  let minX: Double
+  let minY: Double
+  let midX: Double
+  let midY: Double
+  let maxX: Double
+  let maxY: Double
   let width: Double
   let height: Double
+  let originX: Double
+  let originY: Double
+  
+  init(minX: Double, minY: Double, midX: Double, midY: Double, maxX: Double, maxY: Double, width: Double, height: Double, originX: Double, originY: Double) {
+    self.minX = minX
+    self.minY = minY
+    self.midX = midX
+    self.midY = midY
+    self.maxX = maxX
+    self.maxY = maxY
+    self.width = width
+    self.height = height
+    self.originX = originX
+    self.originY = originY
+  }
   
   var dictionary: [String: Any] {
     return [
-      "x": x,
-      "y": y,
+      "minX": minX,
+      "minY": minY,
+      "midX": midX,
+      "midY": midY,
+      "maxX": maxX,
+      "maxY": maxY,
       "width": width,
-      "height": height
+      "height": height,
+      "originX": originX,
+      "originY": originY
     ]
   }
 }
