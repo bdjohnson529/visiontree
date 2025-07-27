@@ -55,14 +55,13 @@ function CameraDetector({ device, isActive, style }: CameraViewProps) {
 
     const result = detectObjects(frame)
     if (result && result.objects && result.objects.length > 0) {
-      console.log('Objects detected:', result.objects[0])
-      console.log('Orientation:', result.orientation)
-
-      console.log("orientation: ", frame.orientation)
-      console.log("screen dimensions. height: ", screenHeight, " width: ", screenWidth)
-      console.log("frame dimensions. height: ", frame.height, " width: ", frame.width)
-      console.log("width: ", screenWidth)
-      console.log("bounds ", result.objects)
+      // console.log('Objects detected:', result.objects[0])
+      // console.log('Result Orientation:', result.orientation)
+      // console.log("Frame Orientation: ", frame.orientation)
+      // console.log("screen dimensions. height: ", screenHeight, " width: ", screenWidth)
+      // console.log("frame dimensions. height: ", frame.height, " width: ", frame.width)
+      // console.log("width: ", screenWidth)
+      // console.log("bounds ", result.objects)
 
       setFrameResultsWorklet(JSON.stringify(result))
     }

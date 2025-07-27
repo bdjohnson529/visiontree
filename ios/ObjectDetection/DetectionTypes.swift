@@ -1,6 +1,7 @@
 import Foundation
 
-// MARK: - Standardized Output Types
+// Duplicate CGRect data struct
+// Future imporovements could inherit struct
 struct DetectionBounds {
   let minX: Double
   let minY: Double
