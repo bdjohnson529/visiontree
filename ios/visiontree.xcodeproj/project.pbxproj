@@ -11,9 +11,12 @@
 		21517250911765A25D5B7BFB /* libPods-visiontree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AF980060DADA7E85A00C617 /* libPods-visiontree.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
 		5293A1E806725E4E12B28F9E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 093D85AD0629E51287DC24D1 /* PrivacyInfo.xcprivacy */; };
+		5DF27B4270CE4148BC7390E5 /* ObjectDetection.m in Sources */ = {isa = PBXBuildFile; fileRef = D942A6DAD208411981B9E165 /* ObjectDetection.m */; };
 		902D0764661E97B3FA218503 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB9F1BF9F120EDEE7265AB3 /* ExpoModulesProvider.swift */; };
+		A30C7EDA2E364BA3008AC6C5 /* DetectionTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A30C7ED92E364BA3008AC6C5 /* DetectionTypes.swift */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		F5A3198B44774C949D7D4A15 /* ObjectDetection.swift in Sources */ = {isa = PBXBuildFile; fileRef = C426BF7AFEE84AAD81771B5F /* ObjectDetection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,8 +27,11 @@
 		3CB9F1BF9F120EDEE7265AB3 /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-visiontree/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
 		5AF980060DADA7E85A00C617 /* libPods-visiontree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-visiontree.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7FAD36A8E099E984413A43DD /* Pods-visiontree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-visiontree.debug.xcconfig"; path = "Target Support Files/Pods-visiontree/Pods-visiontree.debug.xcconfig"; sourceTree = "<group>"; };
+		A30C7ED92E364BA3008AC6C5 /* DetectionTypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetectionTypes.swift; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = visiontree/SplashScreen.storyboard; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
+		C426BF7AFEE84AAD81771B5F /* ObjectDetection.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; path = ObjectDetection.swift; sourceTree = "<group>"; };
+		D942A6DAD208411981B9E165 /* ObjectDetection.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; path = ObjectDetection.m; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = visiontree/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* visiontree-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "visiontree-Bridging-Header.h"; path = "visiontree/visiontree-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -92,6 +98,16 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		5AD35E88D63248D192433F99 /* ObjectDetection */ = {
+			isa = PBXGroup;
+			children = (
+				A30C7ED92E364BA3008AC6C5 /* DetectionTypes.swift */,
+				D942A6DAD208411981B9E165 /* ObjectDetection.m */,
+				C426BF7AFEE84AAD81771B5F /* ObjectDetection.swift */,
+			);
+			path = ObjectDetection;
+			sourceTree = "<group>";
+		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
@@ -108,6 +124,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				1FAA1B83742E79221634A7CC /* Pods */,
 				26C1E2F56E9FF17E3956E762 /* ExpoModulesProviders */,
+				5AD35E88D63248D192433F99 /* ObjectDetection */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -274,6 +291,7 @@
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleToolboxForMac/GoogleToolboxForMac_Logger_Privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities_Privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitImageLabeling/MLKitImageLabelingResources.bundle",
+				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitObjectDetection/MLKitObjectDetectionResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/MLKitObjectDetectionCommon/MLKitObjectDetectionCommonResources.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises_Privacy.bundle",
 				"${PODS_CONFIGURATION_BUILD_DIR}/RCT-Folly/RCT-Folly_privacy.bundle",
@@ -297,6 +315,7 @@
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleToolboxForMac_Logger_Privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleUtilities_Privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitImageLabelingResources.bundle",
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitObjectDetectionResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MLKitObjectDetectionCommonResources.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FBLPromises_Privacy.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/RCT-Folly_privacy.bundle",
@@ -340,7 +359,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
+				A30C7EDA2E364BA3008AC6C5 /* DetectionTypes.swift in Sources */,
 				902D0764661E97B3FA218503 /* ExpoModulesProvider.swift in Sources */,
+				5DF27B4270CE4148BC7390E5 /* ObjectDetection.m in Sources */,
+				F5A3198B44774C949D7D4A15 /* ObjectDetection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,10 +492,7 @@
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG";
@@ -528,10 +547,7 @@
 				);
 				LIBRARY_SEARCH_PATHS = "$(SDKROOT)/usr/lib/swift\"$(inherited)\"";
 				MTL_ENABLE_DEBUG_INFO = NO;
-				OTHER_LDFLAGS = (
-					"$(inherited)",
-					" ",
-				);
+				OTHER_LDFLAGS = "$(inherited)  ";
 				REACT_NATIVE_PATH = "${PODS_ROOT}/../../node_modules/react-native";
 				SDKROOT = iphoneos;
 				USE_HERMES = true;

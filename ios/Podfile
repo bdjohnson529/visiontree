@@ -15,6 +15,9 @@ prepare_react_native_project!
 
 target 'visiontree' do
   use_expo_modules!
+  
+  pod 'GoogleMLKit/ObjectDetection', '6.0.0'
+  pod 'GoogleMLKit/Vision', '3.2.0'
 
   if ENV['EXPO_USE_COMMUNITY_AUTOLINKING'] == '1'
     config_command = ['node', '-e', "process.argv=['', '', 'config'];require('@react-native-community/cli').run()"];
