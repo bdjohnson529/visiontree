@@ -25,55 +25,55 @@ public class ObjectDetectionPlugin: FrameProcessorPlugin {
       
       guard !objects.isEmpty else {
         // Return empty objects array if no objects detected
-        return [
-          "objects": [],
-          "frameWidth": frame.width,
-          "frameHeight": frame.height
-        ]
+        let emptyResult = DetectionResult(
+          objects: [],
+          frameWidth: frame.width,
+          frameHeight: frame.height,
+          orientation: frame.orientation.rawValue
+        )
+        return emptyResult.dictionary
       }
       
       let detectedObjects = objects.map { object in
         let bestLabel = object.labels.max { $0.confidence < $1.confidence }
-        return [
-          "label": bestLabel?.text ?? "unknown",
-          "confidence": bestLabel?.confidence ?? 0.0,
-          "bounds": [
-            "x": object.frame.minX,
-            "y": object.frame.minY,
-            "width": object.frame.width,
-            "height": object.frame.height
-          ]
-        ]
+        let bounds = DetectionBounds(
+          x: object.frame.minX,
+          y: object.frame.minY,
+          width: object.frame.width,
+          height: object.frame.height
+        )
+        return DetectedObject(
+          label: bestLabel?.text ?? "unknown",
+          confidence: bestLabel?.confidence ?? 0.0,
+          bounds: bounds
+        )
       }
       
       let formatDescription = CMSampleBufferGetFormatDescription(buffer)!
       let dimensions = CMVideoFormatDescriptionGetDimensions(formatDescription)
-      return [
-        "objects": detectedObjects,
-        "frameWidth": Int(dimensions.width),
-        "frameHeight": Int(dimensions.height),
-        "orientation": frame.orientation.rawValue
-      ]
+      let result = DetectionResult(
+        objects: detectedObjects,
+        frameWidth: Int(dimensions.width),
+        frameHeight: Int(dimensions.height),
+        orientation: frame.orientation.rawValue
+      )
+      return result.dictionary
     } catch {
       // Return placeholder on error
-      let placeholderResults: [String: Any] = [
-        "objects": [
-          [
-            "label": "placeholder",
-            "confidence": 0.85,
-            "bounds": [
-              "x": 100,
-              "y": 100,
-              "width": 200,
-              "height": 150
-            ]
-          ]
-        ],
-        "frameWidth": 1,
-        "frameHeight": 1
-      ]
+      let placeholderBounds = DetectionBounds(x: 100, y: 100, width: 200, height: 150)
+      let placeholderObject = DetectedObject(
+        label: "placeholder",
+        confidence: 0.85,
+        bounds: placeholderBounds
+      )
+      let placeholderResult = DetectionResult(
+        objects: [placeholderObject],
+        frameWidth: 1,
+        frameHeight: 1,
+        orientation: nil
+      )
       
-      return placeholderResults
+      return placeholderResult.dictionary
     }
   }
 }
