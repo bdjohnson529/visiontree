@@ -14,23 +14,9 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1,
   },
-  overlay: {
-    position: 'absolute',
-    top: 50,
-    left: 0,
-    right: 0,
-    alignItems: 'center',
-    zIndex: 1,
-  },
-  text: {
-    fontSize: 24,
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    padding: 10,
-    borderRadius: 5,
-  },
   labelInput: {
     position: 'absolute',
-    top: 120,
+    top: 60,
     left: 20,
     right: 20,
     backgroundColor: 'rgba(255, 255, 255, 0.9)',
@@ -69,7 +55,6 @@ const styles = StyleSheet.create({
 function CameraCapture({ device, isActive, style }: CameraViewProps) {
   const camera = useRef<VisionCamera>(null)
   const [isRecording, setIsRecording] = useState<boolean>(false);
-  const [status, setStatus] = useState<string>('Ready to capture...');
   const [label, setLabel] = useState<string>('');
 
   const saveLabelsData = async (fileName: string, label: string) => {
@@ -124,19 +109,16 @@ function CameraCapture({ device, isActive, style }: CameraViewProps) {
       camera.current.startRecording({
         onRecordingFinished: (video) => {
           console.log(video.path);
-          setStatus('Recording finished');
           setIsRecording(false);
           saveVideoToFilesystem(video.path);
           setLabel(''); // Clear label after recording
         },
         onRecordingError: (error) => {
           console.error(error);
-          setStatus('Recording error');
           setIsRecording(false);
         }
       });
       setIsRecording(true);
-      setStatus('Recording...');
     }
   };
 
@@ -155,9 +137,6 @@ function CameraCapture({ device, isActive, style }: CameraViewProps) {
         isActive={isActive}
         video={true}
       />
-      <View style={styles.overlay}>
-        <ThemedText style={styles.text}>{status}</ThemedText>
-      </View>
       <TextInput
         style={styles.labelInput}
         placeholder="Enter label for this recording..."
