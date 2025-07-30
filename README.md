@@ -10,14 +10,17 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    npx expo run:ios
    ```
 
-## Deploy
+## Test
 Start the metro bundler
 
    ```
    npx expo start
    ```
 
-Deploy on device using XCode
+Load on device using XCode
+
+## Deploy
+Deploy using [EAS](https://docs.expo.dev/build/setup/)
 
 ## Get started
 
